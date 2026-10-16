@@ -1,4 +1,5 @@
 // Panel aset & kewajiban dengan kalkulasi net worth
+// Sekarang juga mengelola Rekening (CRUD) sebagai sub-tab pertama
 'use client';
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -62,22 +63,38 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { AccountsPanel } from "@/components/accounts/accounts-panel";
 
-export function AssetsPanel() {
+type AssetSubTab = "rekening" | "assets" | "liabilities";
+
+export function AssetsPanel({
+  initialTab = "rekening",
+}: {
+  initialTab?: AssetSubTab;
+}) {
+  const [activeTab, setActiveTab] = useState<AssetSubTab>(initialTab);
+
   return (
     <div className="space-y-4">
       <div>
-        <h2 className="text-lg font-bold">Aset &amp; Kewajiban</h2>
+        <h2 className="text-lg font-bold">Rekening, Aset &amp; Kewajiban</h2>
         <p className="text-sm text-muted-foreground">
-          Lacak emas, dinar, investasi, dan utang. Kekayaan bersih dihitung
-          otomatis.
+          Kelola sumber dana keluarga, lacak emas/dinar/utang. Kekayaan bersih
+          dihitung otomatis.
         </p>
       </div>
-      <Tabs defaultValue="assets">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="assets">Aset</TabsTrigger>
-          <TabsTrigger value="liabilities">Kewajiban</TabsTrigger>
+      <Tabs
+        value={activeTab}
+        onValueChange={(v) => setActiveTab(v as AssetSubTab)}
+      >
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="rekening">💵 Rekening</TabsTrigger>
+          <TabsTrigger value="assets">🪙 Aset</TabsTrigger>
+          <TabsTrigger value="liabilities">📋 Kewajiban</TabsTrigger>
         </TabsList>
+        <TabsContent value="rekening" className="mt-3">
+          <AccountsPanel />
+        </TabsContent>
         <TabsContent value="assets" className="mt-3">
           <AssetsList />
         </TabsContent>

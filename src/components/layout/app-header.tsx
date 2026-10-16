@@ -2,7 +2,7 @@
 'use client';
 import { useSession } from "@/lib/session-store";
 import { Button } from "@/components/ui/button";
-import { Wallet, LogOut, ChevronDown, Download, CheckCircle2, Share } from "lucide-react";
+import { Wallet, LogOut, ChevronDown, Download, CheckCircle2, Share, Database } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,6 +14,7 @@ import {
 import { colorClass } from "@/lib/format";
 import { MONTHS_ID } from "@/lib/constants";
 import { usePWAInstall } from "@/components/pwa/pwa-provider";
+import { BackupDialog } from "@/components/settings/backup-dialog";
 import { useState } from "react";
 import {
   Dialog,
@@ -36,6 +37,7 @@ export function AppHeader({
   const { user, logout } = useSession();
   const { canInstall, isInstalled, promptInstall } = usePWAInstall();
   const [showIosHelp, setShowIosHelp] = useState(false);
+  const [showBackup, setShowBackup] = useState(false);
 
   return (
     <>
@@ -139,6 +141,11 @@ export function AppHeader({
                     Panduan Pasang (HP)
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => setShowBackup(true)}>
+                    <Database className="w-4 h-4 mr-2" />
+                    Cadangkan Data
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={() => logout()}>
                     <LogOut className="w-4 h-4 mr-2" />
                     Ganti pengguna
@@ -235,6 +242,9 @@ export function AppHeader({
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Dialog backup & restore data */}
+      <BackupDialog open={showBackup} onOpenChange={setShowBackup} />
     </>
   );
 }

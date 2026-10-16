@@ -119,15 +119,12 @@ export function AccountsPanel() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-lg font-bold">Rekening &amp; Saldo</h2>
-          <p className="text-sm text-muted-foreground">
-            Kelola sumber dana keluarga. Saldo diperbarui otomatis dari transaksi.
-          </p>
-        </div>
+        <p className="text-xs text-muted-foreground">
+          Saldo diperbarui otomatis dari transaksi.
+        </p>
         <Button onClick={openCreate} size="sm">
           <Plus className="w-4 h-4 mr-1" />
-          Tambah
+          Tambah Rekening
         </Button>
       </div>
 
